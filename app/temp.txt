@@ -1,0 +1,22 @@
+
+return (
+    <ParallaxScrollView
+      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+      headerImage={
+        // <Image
+        //   source={require('@/assets/images/partial-react-logo.png')}
+        //   style={styles.reactLogo}
+        // />
+        <Text style={styles.titleText}>FOO</Text>
+      }>
+      {/* <Text style={styles.titleText}>{"a".repeat(10000)}</Text> */}
+      <View style={styles.container}>
+        <FlatList
+          data={alarms}
+          renderItem={renderAlarm}
+          keyExtractor={item => item.id}
+        />
+        <Button title="Add Alarm" onPress={() => {}} />
+      </View>
+    </ParallaxScrollView>
+    );

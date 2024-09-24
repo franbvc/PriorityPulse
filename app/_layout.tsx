@@ -31,6 +31,13 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
+        <Stack.Screen
+          name="add-alarm-modal"
+          options={{
+            title: 'Add Alarm',
+            presentation: 'modal',
+          }}
+        />
       </Stack>
     </ThemeProvider>
   );

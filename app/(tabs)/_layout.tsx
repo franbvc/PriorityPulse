@@ -15,6 +15,15 @@ export default function TabLayout() {
         headerShown: false,
       }}>
       <Tabs.Screen
+        name="matrix"
+        options={{
+          title: 'Matrix',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'grid' : 'grid-outline'} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
@@ -24,11 +33,11 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="alarm"
         options={{
-          title: 'Explore',
+          title: 'Alarm',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <TabBarIcon name={focused ? 'alarm' : 'alarm-outline'} color={color} />
           ),
         }}
       />
