@@ -21,8 +21,6 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     padding: 8,
     borderRadius: 8,
-    width: '50%',
-    alignSelf: 'center'
   },
   alarmItem: {
     padding: 12,

@@ -1,70 +1,121 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Link, Stack } from 'expo-router';
+import { Button, FlatList, StyleSheet, View, Text, TouchableOpacity, Pressable } from 'react-native';
+import { Matrix } from '@/app/lib/definitions';
+import { MatrixItem } from '@/components/MatrixItem';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { Ionicons } from '@expo/vector-icons'; // If you're using Expo, for icons
+import { useState } from 'react';
 
-export default function HomeScreen() {
+export default function MatrixScreen() {
+  const [tasks, setTask] = useState<Matrix[]>([
+    { id: '1', name: 'French Homework', durationInMinutes: 250, is_brainpow: true, is_urgent: true},
+    { id: '2', name: 'CN Videos', durationInMinutes: 65, is_brainpow: true, is_urgent: true},
+    { id: '3', name: 'AI Lab Report', durationInMinutes: 185, is_brainpow: true, is_urgent: true},
+
+    { id: '4', name: 'Workout', durationInMinutes: 80, is_brainpow: false, is_urgent: true},
+    { id: '5', name: 'Groceries', durationInMinutes: 40, is_brainpow: false, is_urgent: true},
+    { id: '6', name: 'Do Dishes', durationInMinutes: 20, is_brainpow: false, is_urgent: true},
+
+    { id: '7', name: 'IUI Report', durationInMinutes: 500, is_brainpow: true, is_urgent: false},
+    { id: '8', name: 'CN quiz', durationInMinutes: 40, is_brainpow: true, is_urgent: false},
+
+    { id: '9', name: 'Facetime my brother', durationInMinutes: 80, is_brainpow: false, is_urgent: false},
+   
+  ]); // State to store alarms
+
+
+  const categorizedTasks = {
+    urgentBrainpow: tasks.filter(task => task.is_brainpow && task.is_urgent),
+    notUrgentBrainpow: tasks.filter(task => !task.is_brainpow && task.is_urgent),
+    urgentNotBrainpow: tasks.filter(task => task.is_brainpow && !task.is_urgent),
+    notUrgentNotBrainpow: tasks.filter(task => !task.is_brainpow && !task.is_urgent),
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Hello world</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <>
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          headerTitle: 'Tasks',
+          headerRight: () => (
+            <TouchableOpacity onPress={() => ({})} style={styles.iconButton}>
+              <Ionicons name="filter" size={28} color="white" />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <View style={styles.container}>
+        <View style={styles.row}>
+          <View style={styles.quadrant}>
+            <Text style={styles.quadrantTitle}>Urgent & BrainPower</Text>
+            <FlatList
+              data={categorizedTasks.urgentBrainpow}
+              renderItem={MatrixItem}
+              keyExtractor={(item, index) => `urgent-brainpow-${index}`}
+            />
+          </View>
+          <View style={styles.quadrant}>
+            <Text style={styles.quadrantTitle}>Not Urgent & BrainPower</Text>
+            <FlatList
+              data={categorizedTasks.notUrgentBrainpow}
+              renderItem={MatrixItem}
+              keyExtractor={(item, index) => `not-urgent-brainpow-${index}`}
+            />
+          </View>
+        </View>
+        <View style={styles.row}>
+          <View style={styles.quadrant}>
+            <Text style={styles.quadrantTitle}>Urgent & Not BrainPower</Text>
+            <FlatList
+              data={categorizedTasks.urgentNotBrainpow}
+              renderItem={MatrixItem}
+              keyExtractor={(item, index) => `urgent-not-brainpow${index}`}
+            />
+          </View>
+          <View style={styles.quadrant}>
+            <Text style={styles.quadrantTitle}>Not Urgent & Not BrainPower</Text>
+            <FlatList
+              data={categorizedTasks.notUrgentNotBrainpow}
+              renderItem={MatrixItem}
+              keyExtractor={(item, index) => `not-urgent-not-brainpow-${index}`}
+            />
+          </View>
+        </View>
+      </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    padding: 16,
   },
-  stepContainer: {
-    gap: 8,
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
+  quadrant: {
+    flex: 1,
+    margin: 8,
+    padding: 8,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 8,
+    backgroundColor: '#f9f9f9',
+  },
+  quadrantTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  taskItem: {
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: 'lightgray',
+  },
+  taskText: {
+    fontSize: 16,
   },
 });
