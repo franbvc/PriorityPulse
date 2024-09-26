@@ -9,6 +9,7 @@ export function AlarmItem({item}: {item: Alarm})  {
         <Text style={styles.nameText}>{item.name}</Text>
         <Text style={styles.timeText}>{item.time.toLocaleString()}</Text>
         <Text style={styles.categoryText}>{item.category}</Text>
+        <Text > penis </Text>
       </TouchableOpacity>
     </ThemedView>
   );
@@ -20,6 +21,8 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     padding: 8,
     borderRadius: 8,
+    width: '50%',
+    alignSelf: 'center'
   },
   alarmItem: {
     padding: 12,
