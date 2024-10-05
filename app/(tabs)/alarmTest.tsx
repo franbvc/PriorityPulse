@@ -1,13 +1,16 @@
 import { Stack } from "expo-router";
 import { FlatList, StyleSheet, View, TouchableOpacity } from "react-native";
-import { Alarm } from "@/app/lib/definitions";
+import { Alarm, AlarmComparator } from "@/app/lib/definitions";
 import { AlarmItem } from "@/components/AlarmItem";
 
 import { Ionicons } from "@expo/vector-icons"; // If you're using Expo, for icons
 import { useState } from "react";
 import { AlarmModal } from "@/components/AlarmModal";
+import { FilterModal } from "@/components/FilterModal";
 
 export default function AlarmScreen() {
+  const [alarmComparator, setAlarmComparator] =
+    useState<AlarmComparator>("datetime ascending");
   const [alarms, setAlarms] = useState<Alarm[]>([
     {
       id: "1",
@@ -74,9 +77,11 @@ export default function AlarmScreen() {
           headerShown: true,
           headerTitle: "Alarms",
           headerRight: () => (
-            <TouchableOpacity onPress={() => ({})} style={styles.iconButton}>
-              <Ionicons name="filter" size={28} color="white" />
-            </TouchableOpacity>
+            <FilterModal
+              alarms={alarms}
+              setAlarms={setAlarms}
+              setAlarmComparator={setAlarmComparator}
+            />
           ),
           headerStyle: {
             backgroundColor: "darkslateblue",
@@ -89,7 +94,7 @@ export default function AlarmScreen() {
           renderItem={AlarmItem}
           keyExtractor={(item) => item.id}
         />
-        <AlarmModal setAlarms={setAlarms} />
+        <AlarmModal setAlarms={setAlarms} alarmComparator={alarmComparator} />
       </View>
     </>
   );

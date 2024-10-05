@@ -1,4 +1,8 @@
-import { Alarm } from "@/app/lib/definitions";
+import {
+  Alarm,
+  AlarmComparator,
+  AlarmComparatorMap,
+} from "@/app/lib/definitions";
 import { AlarmModalHeader } from "./AlarmModalHeader";
 import { AlarmModalFooter } from "./AlarmModalFooter";
 import React, { useState } from "react";
@@ -9,6 +13,7 @@ import {
   Text,
   useColorScheme,
   Pressable,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import { AlarmModalBody } from "./AlarmModalBody";
@@ -16,9 +21,10 @@ import { BlurView } from "expo-blur";
 
 type AlarmModalProps = {
   setAlarms: React.Dispatch<React.SetStateAction<Alarm[]>>;
+  alarmComparator: AlarmComparator;
 };
 
-export function AlarmModal({ setAlarms }: AlarmModalProps) {
+export function AlarmModal({ setAlarms, alarmComparator }: AlarmModalProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const theme = useColorScheme() ?? "light";
 
@@ -83,9 +89,7 @@ export function AlarmModal({ setAlarms }: AlarmModalProps) {
     };
 
     setAlarms((prevAlarms) =>
-      [...prevAlarms, newAlarm].sort(
-        (a, b) => a.time.getTime() - b.time.getTime(),
-      ),
+      [...prevAlarms, newAlarm].sort(AlarmComparatorMap.get(alarmComparator)),
     );
 
     setNewAlarmName("");
@@ -107,26 +111,28 @@ export function AlarmModal({ setAlarms }: AlarmModalProps) {
         }}
       >
         <BlurView intensity={100} style={styles.blurContainer} tint="dark">
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <AlarmModalHeader />
+          <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <AlarmModalHeader />
 
-              <AlarmModalBody
-                newAlarmName={newAlarmName}
-                setNewAlarmName={setNewAlarmName}
-                setAlarmDate={setAlarmDate}
-                setAlarmTime={setAlarmTime}
-                newAlarmCategory={newAlarmCategory}
-                setNewAlarmCategory={setNewAlarmCategory}
-                getFormattedAlarmTime={getFormattedAlarmTime}
-              />
+                <AlarmModalBody
+                  newAlarmName={newAlarmName}
+                  setNewAlarmName={setNewAlarmName}
+                  setAlarmDate={setAlarmDate}
+                  setAlarmTime={setAlarmTime}
+                  newAlarmCategory={newAlarmCategory}
+                  setNewAlarmCategory={setNewAlarmCategory}
+                  getFormattedAlarmTime={getFormattedAlarmTime}
+                />
 
-              <AlarmModalFooter
-                setModalVisible={setModalVisible}
-                addAlarm={addAlarm}
-              />
+                <AlarmModalFooter
+                  setModalVisible={setModalVisible}
+                  addAlarm={addAlarm}
+                />
+              </View>
             </View>
-          </View>
+          </TouchableWithoutFeedback>
         </BlurView>
       </Modal>
 
