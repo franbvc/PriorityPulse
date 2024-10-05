@@ -1,8 +1,8 @@
-import { Alarm } from "../app/lib/definitions"
-import { StyleSheet, TouchableOpacity, Text } from "react-native"
-import { ThemedView } from "./ThemedView"
+import { Alarm } from "../app/lib/definitions";
+import { StyleSheet, TouchableOpacity, Text } from "react-native";
+import { ThemedView } from "./ThemedView";
 
-export function AlarmItem({item}: {item: Alarm})  {
+export function AlarmItem({ item }: { item: Alarm }) {
   return (
     <ThemedView style={styles.alarmItemView}>
       <TouchableOpacity style={styles.alarmItem}>
@@ -16,7 +16,7 @@ export function AlarmItem({item}: {item: Alarm})  {
 
 const styles = StyleSheet.create({
   alarmItemView: {
-    backgroundColor: 'grey',
+    backgroundColor: "grey",
     marginVertical: 8,
     padding: 8,
     borderRadius: 8,
@@ -24,11 +24,11 @@ const styles = StyleSheet.create({
   alarmItem: {
     padding: 12,
     borderBottomWidth: 1,
-    borderBottomColor: 'lightgray',
+    borderBottomColor: "lightgray",
   },
   heading: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 6,
   },
   content: {
@@ -36,15 +36,15 @@ const styles = StyleSheet.create({
     marginLeft: 24,
   },
   nameText: {
-    color: 'white',
+    color: "white",
     fontSize: 20,
-  }, 
+  },
   timeText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
   },
   categoryText: {
-    color: 'white',
+    color: "white",
     fontSize: 14,
   },
 });
