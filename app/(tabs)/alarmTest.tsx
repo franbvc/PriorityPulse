@@ -78,6 +78,9 @@ export default function AlarmScreen() {
               <Ionicons name="filter" size={28} color="white" />
             </TouchableOpacity>
           ),
+          headerStyle: {
+            backgroundColor: "darkslateblue",
+          },
         }}
       />
       <View style={styles.container}>
@@ -99,6 +102,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    backgroundColor: "#121212",
+    // backgroundColor: "white",
   },
   button: {
     backgroundColor: "#4FA1FF", // Button background color
@@ -138,7 +143,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   iconButton: {
-    padding: 10,
+    padding: 11,
     marginRight: 15,
   },
 });

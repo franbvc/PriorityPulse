@@ -1,19 +1,30 @@
-import { Alarm } from '@/app/lib/definitions';
-import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
-import React, {useState} from 'react';
-import {Alert, Modal, StyleSheet, Text, TextInput, useColorScheme, Pressable, View, Button} from 'react-native';
+import { Alarm } from "@/app/lib/definitions";
+import { AlarmModalHeader } from "./AlarmModalHeader";
+import { AlarmModalFooter } from "./AlarmModalFooter";
+import React, { useState } from "react";
+import {
+  Alert,
+  Modal,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  Pressable,
+  View,
+} from "react-native";
+import { AlarmModalBody } from "./AlarmModalBody";
+import { BlurView } from "expo-blur";
 
 type AlarmModalProps = {
   setAlarms: React.Dispatch<React.SetStateAction<Alarm[]>>;
 };
 
-export function AlarmModal({setAlarms}: AlarmModalProps) {
+export function AlarmModal({ setAlarms }: AlarmModalProps) {
   const [modalVisible, setModalVisible] = useState(false);
-  const theme = useColorScheme() ?? 'light';
+  const theme = useColorScheme() ?? "light";
 
-  const [newAlarmName, setNewAlarmName] = useState('');
+  const [newAlarmName, setNewAlarmName] = useState("");
   const [newAlarmTime, setNewAlarmTime] = useState<Date>(new Date());
-  const [newAlarmCategory, setNewAlarmCategory] = useState('');
+  const [newAlarmCategory, setNewAlarmCategory] = useState("");
 
   const setAlarmTime = (selectedTime: Date | undefined) => {
     if (!selectedTime) {
@@ -36,32 +47,22 @@ export function AlarmModal({setAlarms}: AlarmModalProps) {
     setNewAlarmTime(newValue);
   };
 
-  const showDatepicker = () => {
-    DateTimePickerAndroid.open({
-      value: new Date(),
-      onChange: (_, selectedDate) => {setAlarmDate(selectedDate)},
-      mode: 'date',
-      is24Hour: true,
-    });
-  };
-
-  const showTimepicker = () => {
-    DateTimePickerAndroid.open({
-      value: new Date(),
-      onChange: (_, selectedTime) => {setAlarmTime(selectedTime)},
-      mode: 'time',
-      is24Hour: true,
-    });
+  const getFormattedAlarmTime = () => {
+    let date = `${newAlarmTime.getDate()}/${newAlarmTime.getMonth() + 1}/${newAlarmTime.getFullYear()}`;
+    let hours = newAlarmTime.getHours().toString().padStart(2, "0");
+    let minutes = newAlarmTime.getMinutes().toString().padStart(2, "0");
+    let time = `${hours}:${minutes}`;
+    return `${date} - ${time}`;
   };
 
   const isValidAlarm = () => {
-    if (newAlarmName === '') {
-      Alert.alert('Invalid Alarm: Please enter a name for the alarm');
+    if (newAlarmName === "") {
+      Alert.alert("Invalid Alarm: Please enter a name for the alarm");
       return false;
     }
 
     if (newAlarmTime <= new Date()) {
-      Alert.alert('Invalid Alarm: Please enter a future time for the alarm');
+      Alert.alert("Invalid Alarm: Please enter a future time for the alarm");
       return false;
     }
 
@@ -81,11 +82,15 @@ export function AlarmModal({setAlarms}: AlarmModalProps) {
       is_active: true,
     };
 
-    setAlarms(prevAlarms => [...prevAlarms, newAlarm].sort((a, b) => a.time.getTime() - b.time.getTime()));
+    setAlarms((prevAlarms) =>
+      [...prevAlarms, newAlarm].sort(
+        (a, b) => a.time.getTime() - b.time.getTime(),
+      ),
+    );
 
-    setNewAlarmName('');
+    setNewAlarmName("");
     setNewAlarmTime(new Date());
-    setNewAlarmCategory('');
+    setNewAlarmCategory("");
     setModalVisible(false);
     // Close modal or reset inputs as needed
   };
@@ -93,111 +98,97 @@ export function AlarmModal({setAlarms}: AlarmModalProps) {
   return (
     <View style={styles.openModalButton}>
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+          Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.title}>Add New Alarm</Text>
+        }}
+      >
+        <BlurView intensity={100} style={styles.blurContainer} tint="dark">
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <AlarmModalHeader />
 
-            {/* Input fields */}
-            <TextInput
-              style={styles.input}
-              placeholder="Alarm Name"
-              value={newAlarmName}
-              onChangeText={setNewAlarmName}
-            />
+              <AlarmModalBody
+                newAlarmName={newAlarmName}
+                setNewAlarmName={setNewAlarmName}
+                setAlarmDate={setAlarmDate}
+                setAlarmTime={setAlarmTime}
+                newAlarmCategory={newAlarmCategory}
+                setNewAlarmCategory={setNewAlarmCategory}
+                getFormattedAlarmTime={getFormattedAlarmTime}
+              />
 
-            <Button onPress={showDatepicker} title="Show date picker!" />
-            <Text>Select Date: {newAlarmTime.toDateString()}</Text>
-            <Button onPress={showTimepicker} title="Show time picker!" />
-            <Text>Select Time: {newAlarmTime.toTimeString()}</Text>
-
-            <TextInput
-              style={styles.input}
-              placeholder="Category (Optional)"
-              value={newAlarmCategory}
-              onChangeText={setNewAlarmCategory}
-            />
-
-            {/*Cancel and Confirm buttons side to side*/}
-            <View style={{flexDirection: 'row'}}>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}>
-                <Text style={styles.textStyle}>Cancel</Text>
-              </Pressable>
-
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => addAlarm()}>
-                <Text style={styles.textStyle}>Confirm</Text>
-              </Pressable>
+              <AlarmModalFooter
+                setModalVisible={setModalVisible}
+                addAlarm={addAlarm}
+              />
             </View>
           </View>
-        </View>
+        </BlurView>
       </Modal>
 
-      {!modalVisible ?
+      {!modalVisible ? (
         <Pressable
           // style={[styles.button, styles.buttonOpen]}
-          style={styles.confirmButton}
-          onPress={() => setModalVisible(true)}>
+          style={styles.button}
+          onPress={() => setModalVisible(true)}
+        >
           <Text style={styles.buttonText}>New Alarm</Text>
         </Pressable>
-        : <></>}
+      ) : (
+        <></>
+      )}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   openModalButton: {
-    width: '100%', 
+    width: "100%",
   },
   button: {
-    backgroundColor: '#4FA1FF', // Button background color
-    paddingVertical: 12,        // Vertical padding (top and bottom)
-    paddingHorizontal: 20,      // Horizontal padding (left and right)
-    borderRadius: 8,            // Rounded corners
-    alignItems: 'center',       // Center the text horizontally
-    justifyContent: 'center',   // Center the text vertically
-    flexDirection: 'row',       // Arrange the text and icon in a row
-    marginTop: 10,              // Add some space above/below the button
-  },
-  confirmButton: {
-    backgroundColor: '#4FA1FF', // Button background color
-    paddingVertical: 12,        // Vertical padding (top and bottom)
-    paddingHorizontal: 20,      // Horizontal padding (left and right)
-    borderRadius: 8,            // Rounded corners
-    alignItems: 'center',       // Center the text horizontally
-    justifyContent: 'center',   // Center the text vertically
-    flexDirection: 'row',       // Arrange the text and icon in a row
-    marginTop: 10,              // Add some space above/below the button
+    backgroundColor: "darkslateblue", // Button background color
+    paddingVertical: "4%", // Vertical padding (top and bottom)
+    paddingHorizontal: "10%", // Horizontal padding (left and right)
+    borderRadius: 8, // Rounded corners
+    alignItems: "center", // Center the text horizontally
+    justifyContent: "center", // Center the text vertically
+    flexDirection: "row", // Arrange the text and icon in a row
+    // marginTop: 10, // Add some space above/below the button
   },
   buttonText: {
-    color: 'white',             // Button text color
-    fontSize: 16,               // Text size
-    fontWeight: 'bold',         // Bold text for emphasis
+    color: "white", // Button text color
+    fontSize: 16, // Text size
+    fontWeight: "bold", // Bold text for emphasis
   },
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 22,
   },
   modalView: {
-    width: '80%',
-    height: '60%',
-    margin: 20,
-    backgroundColor: 'white',
+    width: "80%",
+    height: "70%",
+    // margin: 20,
+    // marginVertical: "5%",
+    // padding: "5%",
+    paddingVertical: "5%",
+
+    // backgroundColor: "white",
+    // backgroundColor: "darkgrey",
+    backgroundColor: "darkslateblue",
+
     borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
+
+    // padding: 35,
+
+    alignItems: "center",
+    justifyContent: "space-between",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -206,37 +197,13 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  // button: {
-  //   borderRadius: 20,
-  //   padding: 10,
-  //   elevation: 2,
-  // },
-  // buttonOpen: {
-  //   backgroundColor: '#F194FF',
-  // },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingHorizontal: 8,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-    textAlign: 'center',
+
+  blurContainer: {
+    height: "50%",
+    flex: 1,
+    textAlign: "center",
+    justifyContent: "center",
+    // overflow: "hidden",
+    // borderRadius: 20,
   },
 });

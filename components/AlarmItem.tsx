@@ -16,7 +16,8 @@ export function AlarmItem({ item }: { item: Alarm }) {
 
 const styles = StyleSheet.create({
   alarmItemView: {
-    backgroundColor: "grey",
+    // backgroundColor: "grey",
+    backgroundColor: "#2A2929",
     marginVertical: 8,
     padding: 8,
     borderRadius: 8,
