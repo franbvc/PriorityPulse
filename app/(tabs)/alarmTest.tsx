@@ -1,23 +1,70 @@
-import { Stack } from 'expo-router';
-import { FlatList, StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Alarm } from '@/app/lib/definitions';
-import { AlarmItem } from '@/components/AlarmItem';
+import { Stack } from "expo-router";
+import { FlatList, StyleSheet, View, TouchableOpacity } from "react-native";
+import { Alarm } from "@/app/lib/definitions";
+import { AlarmItem } from "@/components/AlarmItem";
 
-import { Ionicons } from '@expo/vector-icons'; // If you're using Expo, for icons
-import { useState } from 'react';
-import { AlarmModal } from '@/components/AlarmModal';
+import { Ionicons } from "@expo/vector-icons"; // If you're using Expo, for icons
+import { useState } from "react";
+import { AlarmModal } from "@/components/AlarmModal";
 
 export default function AlarmScreen() {
   const [alarms, setAlarms] = useState<Alarm[]>([
-    { id: '1', name: 'Study AI', time: new Date(2024, 10, 10, 10, 10), category: 'University', is_active: true, },
-    { id: '2', name: 'Wash Dishes', time: new Date(2024, 10, 11, 9, 45), is_active: true, },
-    { id: '3', name: 'Buy groceries', time: new Date(2024, 10, 5, 10, 30), category: 'Chores', is_active: true, },
-    { id: '4', name: 'Buy groceries', time: new Date(2024, 10, 5, 10, 30), is_active: true, },
-    { id: '5', name: 'Buy groceries', time: new Date(2024, 10, 5, 10, 30), is_active: true, },
-    { id: '6', name: 'Buy groceries', time: new Date(2024, 10, 5, 10, 30), is_active: true, },
-    { id: '7', name: 'Buy groceries', time: new Date(2024, 10, 5, 10, 30), is_active: true, },
-    { id: '8', name: 'Buy groceries', time: new Date(2024, 10, 5, 10, 30), is_active: true, },
-    { id: '9', name: 'Buy groceries', time: new Date(2024, 10, 5, 10, 30), is_active: true, },
+    {
+      id: "1",
+      name: "Study AI",
+      time: new Date(2024, 10, 10, 10, 10),
+      category: "University",
+      is_active: true,
+    },
+    {
+      id: "2",
+      name: "Wash Dishes",
+      time: new Date(2024, 10, 11, 9, 45),
+      is_active: true,
+    },
+    {
+      id: "3",
+      name: "Buy groceries",
+      time: new Date(2024, 10, 5, 10, 30),
+      category: "Chores",
+      is_active: true,
+    },
+    {
+      id: "4",
+      name: "Buy groceries",
+      time: new Date(2024, 10, 5, 10, 30),
+      is_active: true,
+    },
+    {
+      id: "5",
+      name: "Buy groceries",
+      time: new Date(2024, 10, 5, 10, 30),
+      is_active: true,
+    },
+    {
+      id: "6",
+      name: "Buy groceries",
+      time: new Date(2024, 10, 5, 10, 30),
+      is_active: true,
+    },
+    {
+      id: "7",
+      name: "Buy groceries",
+      time: new Date(2024, 10, 5, 10, 30),
+      is_active: true,
+    },
+    {
+      id: "8",
+      name: "Buy groceries",
+      time: new Date(2024, 10, 5, 10, 30),
+      is_active: true,
+    },
+    {
+      id: "9",
+      name: "Buy groceries",
+      time: new Date(2024, 10, 5, 10, 30),
+      is_active: true,
+    },
   ]); // State to store alarms
 
   return (
@@ -25,7 +72,7 @@ export default function AlarmScreen() {
       <Stack.Screen
         options={{
           headerShown: true,
-          headerTitle: 'Alarms',
+          headerTitle: "Alarms",
           headerRight: () => (
             <TouchableOpacity onPress={() => ({})} style={styles.iconButton}>
               <Ionicons name="filter" size={28} color="white" />
@@ -37,10 +84,9 @@ export default function AlarmScreen() {
         <FlatList
           data={alarms}
           renderItem={AlarmItem}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
         />
-        <AlarmModal 
-          setAlarms={setAlarms}/>
+        <AlarmModal setAlarms={setAlarms} />
       </View>
     </>
   );
@@ -48,36 +94,36 @@ export default function AlarmScreen() {
 
 const styles = StyleSheet.create({
   fullWidthLink: {
-    width: '100%',
+    width: "100%",
   },
   container: {
     flex: 1,
     padding: 16,
   },
   button: {
-    backgroundColor: '#4FA1FF', // Button background color
-    paddingVertical: 12,        // Vertical padding (top and bottom)
-    paddingHorizontal: 20,      // Horizontal padding (left and right)
-    borderRadius: 8,            // Rounded corners
-    alignItems: 'center',       // Center the text horizontally
-    justifyContent: 'center',   // Center the text vertically
-    flexDirection: 'row',       // Arrange the text and icon in a row
-    marginTop: 10,              // Add some space above/below the button
+    backgroundColor: "#4FA1FF", // Button background color
+    paddingVertical: 12, // Vertical padding (top and bottom)
+    paddingHorizontal: 20, // Horizontal padding (left and right)
+    borderRadius: 8, // Rounded corners
+    alignItems: "center", // Center the text horizontally
+    justifyContent: "center", // Center the text vertically
+    flexDirection: "row", // Arrange the text and icon in a row
+    marginTop: 10, // Add some space above/below the button
   },
   buttonText: {
-    color: 'white',             // Button text color
-    fontSize: 16,               // Text size
-    fontWeight: 'bold',         // Bold text for emphasis
+    color: "white", // Button text color
+    fontSize: 16, // Text size
+    fontWeight: "bold", // Bold text for emphasis
   },
   alarmItem: {
-    color: 'white',
+    color: "white",
     padding: 12,
     borderBottomWidth: 1,
-    borderBottomColor: 'lightgrey',
+    borderBottomColor: "lightgrey",
   },
   titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
   },
   stepContainer: {
@@ -89,7 +135,7 @@ const styles = StyleSheet.create({
     width: 290,
     bottom: 0,
     left: 0,
-    position: 'absolute',
+    position: "absolute",
   },
   iconButton: {
     padding: 10,
