@@ -1,5 +1,6 @@
 import { StyleSheet, Text, TextInput, View, Button } from "react-native";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
+import { CategoryKeywords, knownAlarmCategories } from "@/app/lib/definitions";
 
 type AlarmModalBodyProps = {
   newAlarmName: string;
@@ -42,6 +43,19 @@ export function AlarmModalBody({
     });
   };
 
+  const predictCategory = () => {
+    if (newAlarmCategory !== "") return;
+
+    const name = newAlarmName.toLowerCase();
+
+    for (let [category, keywords] of CategoryKeywords) {
+      if (keywords.some((keyword) => name.includes(keyword))) {
+        setNewAlarmCategory(category);
+        return;
+      }
+    }
+  };
+
   return (
     <View style={styles.modalBody}>
       <Text style={styles.inputSectionTitle}>Name</Text>
@@ -50,7 +64,11 @@ export function AlarmModalBody({
         placeholder="Alarm Name"
         placeholderTextColor="#B1B1B1"
         value={newAlarmName}
-        onChangeText={setNewAlarmName}
+        // onChangeText={setNewAlarmName}
+        onChangeText={(name) => {
+          setNewAlarmName(name);
+          predictCategory();
+        }}
       />
 
       <View style={styles.divider} />

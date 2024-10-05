@@ -66,6 +66,37 @@ export const AlarmComparatorMap: Map<AlarmComparator, ComparatorFunction> =
     ],
   ]);
 
+export type knownAlarmCategories =
+  | "work"
+  | "school"
+  | "exercise"
+  | "social"
+  | "family"
+  | "self-care"
+  | "other";
+
+export const CategoryKeywords: Map<knownAlarmCategories, string[]> = new Map([
+  ["work", ["work", "meeting", "presentation", "deadline"]],
+  [
+    "school",
+    [
+      "school",
+      "class",
+      "lecture",
+      "exam",
+      "study",
+      "homework",
+      "report",
+      "assignment",
+    ],
+  ],
+  ["exercise", ["exercise", "workout", "run", "gym", "bouldering"]],
+  ["social", ["social", "party", "hangout", "date", "meetup", "dinner"]],
+  ["family", ["family", "parent", "child", "sibling", "relative"]],
+  ["self-care", ["self-care", "relax", "meditate", "read"]],
+  ["other", ["other", "misc", "general", "random"]],
+]);
+
 export type Matrix = {
   id: string;
   name: string;
