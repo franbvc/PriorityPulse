@@ -9,7 +9,6 @@ export function AlarmItem({item}: {item: Alarm})  {
         <Text style={styles.nameText}>{item.name}</Text>
         <Text style={styles.timeText}>{item.time.toLocaleString()}</Text>
         <Text style={styles.categoryText}>{item.category}</Text>
-        <Text > penis </Text>
       </TouchableOpacity>
     </ThemedView>
   );
