@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Button,
-  Switch,
-  Dimensions,
-} from "react-native";
+import { StyleSheet, Text, TextInput, View, Button } from "react-native";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { CategoryKeywords, knownAlarmCategories } from "@/app/lib/definitions";
 
@@ -52,12 +44,7 @@ export function AlarmModalBody({
     });
   };
 
-  const [isAIEnabled, setIsAIEnabled] = useState(false);
-  const toggleAI = () => setIsAIEnabled(!isAIEnabled);
-
   const predictCategory = () => {
-    if (newAlarmCategory !== "") return;
-
     const name = newAlarmName.toLowerCase();
 
     for (let [category, keywords] of CategoryKeywords) {
@@ -66,6 +53,8 @@ export function AlarmModalBody({
         return;
       }
     }
+
+    setNewAlarmCategory("other");
   };
 
   return (
@@ -76,10 +65,8 @@ export function AlarmModalBody({
         placeholder="Alarm Name"
         placeholderTextColor="#B1B1B1"
         value={newAlarmName}
-        // onChangeText={setNewAlarmName}
         onChangeText={(name) => {
           setNewAlarmName(name);
-          if (isAIEnabled) predictCategory();
         }}
       />
 
@@ -101,20 +88,22 @@ export function AlarmModalBody({
       <Text style={styles.inputSectionTitle}>Category</Text>
       <View
         style={{
+          // height: "12%",
+          // backgroundColor: "lightgray",
           flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          position: "relative",
+          // alignItems: "center",
+          justifyContent: "space-around",
+          // position: "relative",
         }}
       >
         <TextInput
           style={[
             styles.input,
             {
-              width: "60%",
+              // width: "60%",
               // backgroundColor: "lightblue",
-              position: "absolute",
-              left: "20%",
+              // position: "absolute",
+              // left: "20%",
             },
           ]}
           placeholder="Category (Optional)"
@@ -122,23 +111,20 @@ export function AlarmModalBody({
           value={newAlarmCategory}
           onChangeText={setNewAlarmCategory}
         />
+
         <View
           style={{
             flexDirection: "column",
             // backgroundColor: "lightblue",
             alignItems: "center",
-            marginLeft: "auto",
+            // marginLeft: "auto",
           }}
         >
-          <Switch
-            style={{ transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }] }}
-            trackColor={{ false: "#767577", true: "darkslateblue" }}
-            thumbColor="#f4f3f4"
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleAI}
-            value={isAIEnabled}
+          <Button
+            onPress={predictCategory}
+            title="Predict"
+            color="darkslateblue"
           />
-          <Text style={{ color: "white" }}>Predict</Text>
         </View>
       </View>
     </View>
