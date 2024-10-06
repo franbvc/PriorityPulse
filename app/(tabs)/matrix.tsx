@@ -5,6 +5,7 @@ import { MatrixItem } from '@/components/MatrixItem';
 
 import { Ionicons } from '@expo/vector-icons'; // If you're using Expo, for icons
 import { useState } from 'react';
+import { MatrixModal } from '@/components/MatrixModal';
 
 export default function MatrixScreen() {
   const [tasks, setTask] = useState<Matrix[]>([
@@ -81,6 +82,7 @@ export default function MatrixScreen() {
             />
           </View>
         </View>
+        <MatrixModal setMatrix={setTask} />
       </View>
     </>
   );
