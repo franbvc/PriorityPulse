@@ -18,32 +18,30 @@ function getColour(item: Matrix) {
   
   if(item.durationInMinutes <= 30)
   {
-    return 'green'
+    return '#93c47d'
   }
   else if(item.durationInMinutes <= 120)
   {
-    return 'yellow'
+    return '#ffd966'
   }
   else if(item.durationInMinutes <= 240)
   {
-    return 'orange'
+    return '#f6b26b'
   }
   else
   {
-    return 'red'
+    return '#e06666'
   }
 }
 
 const styles = StyleSheet.create({
   MatrixItemView: {
-    marginVertical: 8,
-    padding: 8,
-    borderRadius: 8,
+    marginVertical: 4,
+    padding: 1,
+    borderRadius: 4,
   },
   MatrixItem: {
     padding: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: 'lightgray',
   },
   heading: {
     flexDirection: 'row',
@@ -51,15 +49,15 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   content: {
-    marginTop: 6,
+    marginTop: 1,
     marginLeft: 24,
   },
   nameText: {
-    color: 'white',
+    color: 'black',
     fontSize: 20,
   }, 
   timeText: {
-    color: 'white',
-    fontSize: 16,
+    color: 'black',
+    fontSize: 12,
   },
 });

@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9f9f9',
   },
   quadrantTitle: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: 'bold',
     marginBottom: 8,
   },
