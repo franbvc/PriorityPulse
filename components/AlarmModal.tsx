@@ -111,28 +111,28 @@ export function AlarmModal({ setAlarms, alarmComparator }: AlarmModalProps) {
         }}
       >
         <BlurView intensity={100} style={styles.blurContainer} tint="dark">
-          <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <AlarmModalHeader />
+          {/*<TouchableWithoutFeedback onPress={() => setModalVisible(false)}>*/}
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <AlarmModalHeader setVisible={setModalVisible} />
 
-                <AlarmModalBody
-                  newAlarmName={newAlarmName}
-                  setNewAlarmName={setNewAlarmName}
-                  setAlarmDate={setAlarmDate}
-                  setAlarmTime={setAlarmTime}
-                  newAlarmCategory={newAlarmCategory}
-                  setNewAlarmCategory={setNewAlarmCategory}
-                  getFormattedAlarmTime={getFormattedAlarmTime}
-                />
+              <AlarmModalBody
+                newAlarmName={newAlarmName}
+                setNewAlarmName={setNewAlarmName}
+                setAlarmDate={setAlarmDate}
+                setAlarmTime={setAlarmTime}
+                newAlarmCategory={newAlarmCategory}
+                setNewAlarmCategory={setNewAlarmCategory}
+                getFormattedAlarmTime={getFormattedAlarmTime}
+              />
 
-                <AlarmModalFooter
-                  setModalVisible={setModalVisible}
-                  addAlarm={addAlarm}
-                />
-              </View>
+              <AlarmModalFooter
+                setModalVisible={setModalVisible}
+                addAlarm={addAlarm}
+              />
             </View>
-          </TouchableWithoutFeedback>
+          </View>
+          {/*</TouchableWithoutFeedback>*/}
         </BlurView>
       </Modal>
 
