@@ -1,9 +1,7 @@
-import { Link, Stack } from 'expo-router';
-import { Button, FlatList, StyleSheet, View, Text, TouchableOpacity, Pressable } from 'react-native';
+import { FlatList, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Matrix } from '@/app/lib/definitions';
-import { MatrixItem } from '@/components/MatrixItem';
-
-import { Ionicons } from '@expo/vector-icons'; // If you're using Expo, for icons
+import { MatrixItem } from '@/components/MatrixItem'; // Import MatrixItem with delete functionality
+import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { MatrixModal } from '@/components/MatrixModal';
 
@@ -11,18 +9,18 @@ export default function MatrixScreen() {
   const [tasks, setTask] = useState<Matrix[]>([
     { id: '1', name: 'French Homework', durationInMinutes: 250, is_brainpow: true, is_urgent: true},
     { id: '3', name: 'AI Lab Report', durationInMinutes: 185, is_brainpow: true, is_urgent: true},
-
     { id: '4', name: 'Workout', durationInMinutes: 80, is_brainpow: false, is_urgent: true},
     { id: '6', name: 'Do Dishes', durationInMinutes: 20, is_brainpow: false, is_urgent: true},
-
     { id: '7', name: 'IUI Report', durationInMinutes: 500, is_brainpow: true, is_urgent: false},
     { id: '8', name: 'CN quiz', durationInMinutes: 40, is_brainpow: true, is_urgent: false},
     { id: '2', name: 'CN Videos', durationInMinutes: 65, is_brainpow: true, is_urgent: false},
-
     { id: '9', name: 'Facetime my brother', durationInMinutes: 80, is_brainpow: false, is_urgent: false},
-   
-  ]); // State to store alarms
+  ]);
 
+  // Function to delete a task by its id
+  const handleDeleteTask = (id: string) => {
+    setTask(prevTasks => prevTasks.filter(task => task.id !== id));
+  };
 
   const categorizedTasks = {
     urgentBrainpow: tasks.filter(task => task.is_brainpow && task.is_urgent),
@@ -33,33 +31,26 @@ export default function MatrixScreen() {
 
   return (
     <>
-      <Stack.Screen
-        options={{
-          headerShown: true,
-          headerTitle: 'Tasks',
-          headerRight: () => (
-            <TouchableOpacity onPress={() => ({})} style={styles.iconButton}>
-              <Ionicons name="filter" size={28} color="white" />
-            </TouchableOpacity>
-          ),
-        }}
-      />
       <View style={styles.container}>
         <View style={styles.row}>
           <View style={styles.quadrant}>
             <Text style={styles.quadrantTitle}>Urgent & BrainPower</Text>
             <FlatList
               data={categorizedTasks.urgentBrainpow}
-              renderItem={MatrixItem}
-              keyExtractor={(item, index) => `urgent-brainpow-${index}`}
+              renderItem={({ item }) => (
+                <MatrixItem item={item} onDelete={handleDeleteTask} />
+              )}
+              keyExtractor={(item) => item.id}
             />
           </View>
           <View style={styles.quadrant}>
             <Text style={styles.quadrantTitle}>Not Urgent & BrainPower</Text>
             <FlatList
               data={categorizedTasks.notUrgentBrainpow}
-              renderItem={MatrixItem}
-              keyExtractor={(item, index) => `not-urgent-brainpow-${index}`}
+              renderItem={({ item }) => (
+                <MatrixItem item={item} onDelete={handleDeleteTask} />
+              )}
+              keyExtractor={(item) => item.id}
             />
           </View>
         </View>
@@ -68,16 +59,20 @@ export default function MatrixScreen() {
             <Text style={styles.quadrantTitle}>Urgent & Not BrainPower</Text>
             <FlatList
               data={categorizedTasks.urgentNotBrainpow}
-              renderItem={MatrixItem}
-              keyExtractor={(item, index) => `urgent-not-brainpow${index}`}
+              renderItem={({ item }) => (
+                <MatrixItem item={item} onDelete={handleDeleteTask} />
+              )}
+              keyExtractor={(item) => item.id}
             />
           </View>
           <View style={styles.quadrant}>
             <Text style={styles.quadrantTitle}>Not Urgent & Not BrainPower</Text>
             <FlatList
               data={categorizedTasks.notUrgentNotBrainpow}
-              renderItem={MatrixItem}
-              keyExtractor={(item, index) => `not-urgent-not-brainpow-${index}`}
+              renderItem={({ item }) => (
+                <MatrixItem item={item} onDelete={handleDeleteTask} />
+              )}
+              keyExtractor={(item) => item.id}
             />
           </View>
         </View>
@@ -110,13 +105,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     marginBottom: 8,
-  },
-  taskItem: {
-    padding: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: 'lightgray',
-  },
-  taskText: {
-    fontSize: 16,
   },
 });

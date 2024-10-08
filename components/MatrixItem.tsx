@@ -3,10 +3,10 @@ import { StyleSheet, TouchableOpacity, Text } from "react-native"
 import { ThemedView } from "./ThemedView"
 import {useState} from 'react'
 
-export function MatrixItem({item}: {item: Matrix})  {
+export function MatrixItem({ item, onDelete }: { item: Matrix; onDelete: (id: string) => void }) {
   return (
     <ThemedView style={[styles.MatrixItemView, { backgroundColor: getColour(item) }]}>
-      <TouchableOpacity style={styles.MatrixItem}>
+      <TouchableOpacity onPress={() => onDelete(item.id)} style={styles.MatrixItem}>
         <Text style={styles.nameText}>{item.name}</Text>
         <Text style={styles.timeText}>{Math.floor(item.durationInMinutes/60)}h {item.durationInMinutes%60}m</Text>
       </TouchableOpacity>
