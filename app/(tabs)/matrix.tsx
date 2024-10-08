@@ -10,15 +10,14 @@ import { MatrixModal } from '@/components/MatrixModal';
 export default function MatrixScreen() {
   const [tasks, setTask] = useState<Matrix[]>([
     { id: '1', name: 'French Homework', durationInMinutes: 250, is_brainpow: true, is_urgent: true},
-    { id: '2', name: 'CN Videos', durationInMinutes: 65, is_brainpow: true, is_urgent: true},
     { id: '3', name: 'AI Lab Report', durationInMinutes: 185, is_brainpow: true, is_urgent: true},
 
     { id: '4', name: 'Workout', durationInMinutes: 80, is_brainpow: false, is_urgent: true},
-    { id: '5', name: 'Groceries', durationInMinutes: 40, is_brainpow: false, is_urgent: true},
     { id: '6', name: 'Do Dishes', durationInMinutes: 20, is_brainpow: false, is_urgent: true},
 
     { id: '7', name: 'IUI Report', durationInMinutes: 500, is_brainpow: true, is_urgent: false},
     { id: '8', name: 'CN quiz', durationInMinutes: 40, is_brainpow: true, is_urgent: false},
+    { id: '2', name: 'CN Videos', durationInMinutes: 65, is_brainpow: true, is_urgent: false},
 
     { id: '9', name: 'Facetime my brother', durationInMinutes: 80, is_brainpow: false, is_urgent: false},
    
@@ -27,8 +26,8 @@ export default function MatrixScreen() {
 
   const categorizedTasks = {
     urgentBrainpow: tasks.filter(task => task.is_brainpow && task.is_urgent),
-    notUrgentBrainpow: tasks.filter(task => !task.is_brainpow && task.is_urgent),
-    urgentNotBrainpow: tasks.filter(task => task.is_brainpow && !task.is_urgent),
+    notUrgentBrainpow: tasks.filter(task => task.is_brainpow && !task.is_urgent),
+    urgentNotBrainpow: tasks.filter(task => !task.is_brainpow && task.is_urgent),
     notUrgentNotBrainpow: tasks.filter(task => !task.is_brainpow && !task.is_urgent),
   };
 

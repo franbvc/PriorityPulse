@@ -1,7 +1,6 @@
 import { Matrix } from '@/app/lib/definitions';
 import React, { useState } from 'react';
-import CheckBox from '@react-native-community/checkbox';
-import { Alert, Modal, StyleSheet, Text, TextInput, Pressable, View, useColorScheme, Switch} from 'react-native';
+import { Alert, Modal, StyleSheet, Text, TextInput, Pressable, View, useColorScheme, Switch } from 'react-native';
 
 type MatrixModalProps = {
   setMatrix: React.Dispatch<React.SetStateAction<Matrix[]>>;
@@ -9,6 +8,7 @@ type MatrixModalProps = {
 
 export function MatrixModal({ setMatrix }: MatrixModalProps) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [screen, setScreen] = useState(1);  // Track which screen is active
   const theme = useColorScheme() ?? 'light';
 
   const [newTaskName, setMatrixName] = useState('');
@@ -24,7 +24,22 @@ export function MatrixModal({ setMatrix }: MatrixModalProps) {
       setTaskDuration(0);  // Reset or handle invalid input (e.g., empty input)
     }
   };
-  
+
+  const preFillTaskDetails = () => {
+    if (newTaskName === "CN Mock Exam") {
+      setTaskDuration(150);
+      setIsBrainpow(true);
+      setIsUrgent(true);
+    } else if (newTaskName === "Build Wardrobe") {
+      setTaskDuration(300);
+      setIsBrainpow(false);
+      setIsUrgent(true);
+    } else if (newTaskName === "Buy Christmas Presents") {
+      setTaskDuration(30);
+      setIsBrainpow(false);
+      setIsUrgent(false);
+    }
+  };
 
   const addTask = () => {
     const newTask: Matrix = {
@@ -44,6 +59,7 @@ export function MatrixModal({ setMatrix }: MatrixModalProps) {
     setIsUrgent(true);
 
     setModalVisible(false);
+    setScreen(1);  // Reset to first screen
   };
 
   return (
@@ -55,73 +71,96 @@ export function MatrixModal({ setMatrix }: MatrixModalProps) {
         onRequestClose={() => {
           Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
+          setScreen(1);  // Reset to first screen on close
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.title}>Add New Task</Text>
 
-            {/* Input fields */}
-            <TextInput
-              style={styles.input}
-              placeholder="Task Name"
-              value={newTaskName}
-              onChangeText={setMatrixName}
-            />
+            {screen === 1 ? (
+              // Screen 1: Task name input
+              <>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Task Name"
+                  value={newTaskName}
+                  onChangeText={setMatrixName}
+                />
 
-            <TextInput
-              style={styles.input}
-              placeholder="Duration"
-              value={newTaskDuration.toString()}
-              onChangeText={setMatrixDurationFromString}
-              keyboardType="numeric"
-            />
+                <View style={{ flexDirection: 'row' }}>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => setModalVisible(false)}>
+                    <Text style={styles.textStyle}>Cancel</Text>
+                  </Pressable>
 
-            <View style={styles.switchContainer}>
-              <Text>Brainpower:             </Text>
-              <Switch 
-                value={newIsBrainpow}
-                onValueChange={setIsBrainpow}
-              />
-            </View>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => {
+                      preFillTaskDetails(); // Pre-fill details based on task name
+                      setScreen(2);  // Go to second screen
+                    }}
+                  >
+                    <Text style={styles.textStyle}>Next</Text>
+                  </Pressable>
+                </View>
+              </>
+            ) : (
+              // Screen 2: Task details input
+              <>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Duration"
+                  value={newTaskDuration.toString()}
+                  onChangeText={setMatrixDurationFromString}
+                  keyboardType="numeric"
+                />
 
-            <View style={styles.switchContainer}>
-              <Text>Urgent:                    </Text>
-              <Switch 
-                value={newIsUrgent}
-                onValueChange={setIsUrgent}
-              />
-            </View>
+                <View style={styles.switchContainer}>
+                  <Text>Brainpower:</Text>
+                  <Switch 
+                    value={newIsBrainpow}
+                    onValueChange={setIsBrainpow}
+                  />
+                </View>
 
-            
-            {/* Cancel and Confirm buttons side by side */}
-            <View style={{ flexDirection: 'row' }}>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={styles.textStyle}>Cancel</Text>
-              </Pressable>
+                <View style={styles.switchContainer}>
+                  <Text>Urgent:</Text>
+                  <Switch 
+                    value={newIsUrgent}
+                    onValueChange={setIsUrgent}
+                  />
+                </View>
 
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={addTask}
-              >
-                <Text style={styles.textStyle}>Confirm</Text>
-              </Pressable>
-            </View>
+                {/* Cancel and Confirm buttons */}
+                <View style={{ flexDirection: 'row' }}>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => setScreen(1)}  // Go back to first screen
+                  >
+                    <Text style={styles.textStyle}>Back</Text>
+                  </Pressable>
+
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={addTask}>
+                    <Text style={styles.textStyle}>Confirm</Text>
+                  </Pressable>
+                </View>
+              </>
+            )}
           </View>
         </View>
       </Modal>
 
-      <Pressable
-        style={styles.confirmButton}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.buttonText}>New Task</Text>
-      </Pressable>
-
-      </View>
-        
+      {!modalVisible ? (
+        <Pressable
+          style={styles.confirmButton}
+          onPress={() => setModalVisible(true)}>
+          <Text style={styles.buttonText}>New Task</Text>
+        </Pressable>
+      ) : null}
+    </View>
   );
 }
 
@@ -191,6 +230,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 12,
     paddingHorizontal: 8,
+    width: '100%',
   },
   title: {
     fontSize: 24,
@@ -200,10 +240,9 @@ const styles = StyleSheet.create({
   },
   switchContainer: {
     flexDirection: 'row',
-    alignItems: 'center',  // Aligns switch and label vertically in the center
-    justifyContent: 'center',  // Aligns them next to each other without space
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 10,
     width: '100%',
   },
-
-  });
+});
