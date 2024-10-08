@@ -108,16 +108,19 @@ export function MatrixModal({ setMatrix }: MatrixModalProps) {
             ) : (
               // Screen 2: Task details input
               <>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Duration"
-                  value={newTaskDuration.toString()}
-                  onChangeText={setMatrixDurationFromString}
-                  keyboardType="numeric"
-                />
+                <View style={styles.durationContainer}>
+                  <Text style={styles.durationLabel}>Duration (min):</Text>
+                  <TextInput
+                    style={styles.inputDuration}
+                    placeholder="Duration"
+                    value={newTaskDuration.toString()}
+                    onChangeText={setMatrixDurationFromString}
+                    keyboardType="numeric"
+                  />
+                </View>
 
                 <View style={styles.switchContainer}>
-                  <Text>Brainpower:</Text>
+                  <Text>Brainpower:                                         </Text>
                   <Switch 
                     value={newIsBrainpow}
                     onValueChange={setIsBrainpow}
@@ -125,7 +128,7 @@ export function MatrixModal({ setMatrix }: MatrixModalProps) {
                 </View>
 
                 <View style={styles.switchContainer}>
-                  <Text>Urgent:</Text>
+                  <Text>Urgent:                                                </Text>
                   <Switch 
                     value={newIsUrgent}
                     onValueChange={setIsUrgent}
@@ -232,6 +235,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     width: '100%',
   },
+  inputDuration: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 12,
+    paddingHorizontal: 8,
+    width: '40%',
+  },
+  durationLabel: {
+    fontSize: 14,
+    marginRight: 10,
+    alignSelf: 'center',
+  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -243,6 +259,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 10,
+    width: '100%',
+  },
+  durationContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 1,
     width: '100%',
   },
 });
