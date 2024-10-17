@@ -29,7 +29,7 @@ export function MatrixModal({ setMatrix }: MatrixModalProps) {
     if (newTaskName === "CN Mock Exam") {
       setTaskDuration(150);
       setIsBrainpow(true);
-      setIsUrgent(true);
+      setIsUrgent(false);
     } else if (newTaskName === "Build Wardrobe") {
       setTaskDuration(300);
       setIsBrainpow(false);
@@ -86,6 +86,12 @@ export function MatrixModal({ setMatrix }: MatrixModalProps) {
                   value={newTaskName}
                   onChangeText={setMatrixName}
                 />
+                  <Text style={styles.textStyle}>                     </Text>
+                  <Text style={styles.textStyle}>                     </Text>
+                  <Text style={styles.textStyle}>                     </Text>
+                  <Text style={styles.textStyle}>                     </Text>
+
+
 
                 <View style={{ flexDirection: 'row' }}>
                   <Pressable
@@ -93,7 +99,7 @@ export function MatrixModal({ setMatrix }: MatrixModalProps) {
                     onPress={() => setModalVisible(false)}>
                     <Text style={styles.textStyle}>Cancel</Text>
                   </Pressable>
-
+                  <Text style={styles.textStyle}>                     </Text>
                   <Pressable
                     style={[styles.button, styles.buttonClose]}
                     onPress={() => {
@@ -109,7 +115,7 @@ export function MatrixModal({ setMatrix }: MatrixModalProps) {
               // Screen 2: Task details input
               <>
                 <View style={styles.durationContainer}>
-                  <Text style={styles.durationLabel}>Duration (min):</Text>
+                  <Text style={styles.durationLabel}>Duration (min):                </Text>
                   <TextInput
                     style={styles.inputDuration}
                     placeholder="Duration"
@@ -120,7 +126,7 @@ export function MatrixModal({ setMatrix }: MatrixModalProps) {
                 </View>
 
                 <View style={styles.switchContainer}>
-                  <Text>Brainpower:                                         </Text>
+                  <Text>Mental Energy:                                         </Text>
                   <Switch 
                     value={newIsBrainpow}
                     onValueChange={setIsBrainpow}
@@ -143,7 +149,7 @@ export function MatrixModal({ setMatrix }: MatrixModalProps) {
                   >
                     <Text style={styles.textStyle}>Back</Text>
                   </Pressable>
-
+                  <Text style={styles.textStyle}>                     </Text>
                   <Pressable
                     style={[styles.button, styles.buttonClose]}
                     onPress={addTask}>
@@ -204,7 +210,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     width: '80%',
-    height: '60%',
+    height: '45%',
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
@@ -236,12 +242,12 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   inputDuration: {
-    height: 40,
+    height: 29,
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 12,
+    marginBottom: 21,
     paddingHorizontal: 8,
-    width: '40%',
+    width: '30%',
   },
   durationLabel: {
     fontSize: 14,
@@ -258,7 +264,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: 15,
     width: '100%',
   },
   durationContainer: {

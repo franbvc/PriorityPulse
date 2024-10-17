@@ -14,7 +14,7 @@ export default function MatrixScreen() {
     { id: '7', name: 'IUI Report', durationInMinutes: 500, is_brainpow: true, is_urgent: false},
     { id: '8', name: 'CN quiz', durationInMinutes: 40, is_brainpow: true, is_urgent: false},
     { id: '2', name: 'CN Videos', durationInMinutes: 65, is_brainpow: true, is_urgent: false},
-    { id: '9', name: 'Facetime my brother', durationInMinutes: 80, is_brainpow: false, is_urgent: false},
+    { id: '9', name: 'Facetime brother', durationInMinutes: 80, is_brainpow: false, is_urgent: false},
   ]);
 
   // Function to delete a task by its id
@@ -34,7 +34,7 @@ export default function MatrixScreen() {
       <View style={styles.container}>
         <View style={styles.row}>
           <View style={styles.quadrant}>
-            <Text style={styles.quadrantTitle}>Urgent & BrainPower</Text>
+            <Text style={styles.quadrantTitle}>Urgent & Mental Energy</Text>
             <FlatList
               data={categorizedTasks.urgentBrainpow}
               renderItem={({ item }) => (
@@ -44,7 +44,7 @@ export default function MatrixScreen() {
             />
           </View>
           <View style={styles.quadrant}>
-            <Text style={styles.quadrantTitle}>Not Urgent & BrainPower</Text>
+            <Text style={styles.quadrantTitle}>Not Urgent & Mental Energy</Text>
             <FlatList
               data={categorizedTasks.notUrgentBrainpow}
               renderItem={({ item }) => (
@@ -56,7 +56,7 @@ export default function MatrixScreen() {
         </View>
         <View style={styles.row}>
           <View style={styles.quadrant}>
-            <Text style={styles.quadrantTitle}>Urgent & Not BrainPower</Text>
+            <Text style={styles.quadrantTitle}>Urgent & No Mental Energy</Text>
             <FlatList
               data={categorizedTasks.urgentNotBrainpow}
               renderItem={({ item }) => (
@@ -66,7 +66,7 @@ export default function MatrixScreen() {
             />
           </View>
           <View style={styles.quadrant}>
-            <Text style={styles.quadrantTitle}>Not Urgent & Not BrainPower</Text>
+            <Text style={styles.quadrantTitle}>Not Urgent & No Mental Energy</Text>
             <FlatList
               data={categorizedTasks.notUrgentNotBrainpow}
               renderItem={({ item }) => (
@@ -85,7 +85,7 @@ export default function MatrixScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 5,
   },
   row: {
     flexDirection: 'row',
@@ -94,15 +94,15 @@ const styles = StyleSheet.create({
   },
   quadrant: {
     flex: 1,
-    margin: 8,
-    padding: 8,
+    margin: 3,
+    padding: 5,
     borderWidth: 1,
     borderColor: 'gray',
     borderRadius: 8,
     backgroundColor: '#f9f9f9',
   },
   quadrantTitle: {
-    fontSize: 15,
+    fontSize: 10,
     fontWeight: 'bold',
     marginBottom: 8,
   },

@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   MatrixItem: {
-    padding: 12,
+    padding: 5,
   },
   heading: {
     flexDirection: 'row',
@@ -54,10 +54,10 @@ const styles = StyleSheet.create({
   },
   nameText: {
     color: 'black',
-    fontSize: 20,
+    fontSize: 10,
   }, 
   timeText: {
     color: 'black',
-    fontSize: 12,
+    fontSize: 8,
   },
 });
